@@ -17,7 +17,7 @@ export default function Card({ data, index }){
      const draggedIndex = item.index;
      const targetIndex = index;
 
-     if(draggedIndex == targetIndex){
+     if(draggedIndex === targetIndex){
         return;
      }
 
