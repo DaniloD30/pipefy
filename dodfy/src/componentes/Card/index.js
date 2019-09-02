@@ -1,11 +1,15 @@
-import React, {useRef} from 'react'
+import React, {useRef, useContext} from 'react'
 import {Container, Label} from './styles';
 import {useDrag, useDrop} from 'react-dnd';
+import  BoardContext from '../Board/context';
 
-export default function Card({ data, index }){
+export default function Card({ data, index, listIndex }){
+  
   const ref = useRef();
+  const { move } = useContext(BoardContext);
+
   const [{isDragging}, dragRef] = useDrag({
-    item: {type:'CARD', index, id: data.id, content: data.content},
+    item: {type:'CARD', index, listIndex},
     collect: monitor => ({
       isDragging: monitor.isDragging(),
     }),
@@ -16,7 +20,13 @@ export default function Card({ data, index }){
     hover(item, monitor){
      const draggedIndex = item.index;
      const targetIndex = index;
+     
+     const draggedListIndex = item.listIndex;
+    //  const targetListIndex = listIndex;
 
+    //  const targetListIndex = 
+        // console.log(draggedIndex);
+        // console.log(targetIndex);
      if(draggedIndex === targetIndex){
         return;
      }
@@ -33,14 +43,14 @@ export default function Card({ data, index }){
     // Condições feitas para verificar se o usuario arrastou o card
     // para o centro do outro, se não n acontecera a troca
 
-     if(draggedIndex < targetIndex && draggedTop
-        < targetCenter){
+     if(draggedIndex < targetIndex && draggedTop < targetCenter){
           return;
-        }
-        if(draggedIndex > targetIndex && draggedTop
-          > targetCenter){
-            return;
-          }
+      }
+    if(draggedIndex > targetIndex && draggedTop > targetCenter){
+          return;
+       }
+    
+       move(draggedListIndex, draggedIndex, targetIndex);
 
 
     }
@@ -57,7 +67,7 @@ export default function Card({ data, index }){
                    </header>
                    <p>{data.content}</p>
                  {data.user && <img src={data.user} alt=""></img>}
-               </Container>
+            </Container>
         
     ) ;
 }
