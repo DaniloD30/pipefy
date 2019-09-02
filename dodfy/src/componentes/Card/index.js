@@ -22,15 +22,15 @@ export default function Card({ data, index, listIndex }){
      const targetIndex = index;
      
      const draggedListIndex = item.listIndex;
-    //  const targetListIndex = listIndex;
+     const targetListIndex = listIndex;
 
     //  const targetListIndex = 
         // console.log(draggedIndex);
         // console.log(targetIndex);
-     if(draggedIndex === targetIndex){
+     if(draggedIndex === targetIndex && draggedListIndex === targetListIndex){
         return;
      }
-
+     
      //precisa calcular o tamanho do componenete, 
     //  para saber o meio dele e substituir o card
     const targetSize = ref.current.getBoundingClientRect();
@@ -50,8 +50,10 @@ export default function Card({ data, index, listIndex }){
           return;
        }
     
-       move(draggedListIndex, draggedIndex, targetIndex);
+       move(draggedListIndex ,targetListIndex, draggedIndex, targetIndex);
 
+       item.index = targetIndex; 
+       item.listIndex = targetListIndex;
 
     }
   })
